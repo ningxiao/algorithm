@@ -1,0 +1,12 @@
+{
+    "name": "bloomfilter",
+    "version": "0.0.1",
+    "description": "布隆过滤器",
+    "scripts": {
+        "start": "node ./src/Main.js",
+        "test": "mocha"
+    },
+    "devDependencies": {
+        "mocha": "^10.2.0"
+    }
+}
