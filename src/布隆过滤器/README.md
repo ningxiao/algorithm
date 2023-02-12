@@ -148,7 +148,16 @@
     console.log(bloomFilter.contains('https://github.com/meituan'));
     console.log(bloomFilter.contains('https://github.com/ningxiao'));
     ```
-### 4 Cellar应用
+### 4 工程命令
+``` shell
+cd algorithm/src/布隆过滤器
+```
+![example](./src/assets/tree.png)
+**🛠️ 执行运行 `npm run start`**
+![example](./src/assets/start.png)
+**🔬 Test in BloomFilter `npm run test`**
+![example](./src/assets/test.png)
+### 5 Cellar应用
 * 网页爬虫对URL去重，避免爬取相同的URL地址
 * 反垃圾邮件，从数十亿个垃圾邮件列表中判断某邮箱是否垃圾邮箱
 * Google Chrome 使用布隆过滤器识别恶意URL
