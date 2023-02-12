@@ -12,15 +12,30 @@
 class BitSet {
     #bitSize;
     #bitArray;
-    constructor(bit) { //比特数组 并且全部赋值位0
-        this.#bitSize = bit;
-        this.#bitArray = new Uint8Array(bit);
+    /**
+     * 生成比特数组赋值0
+     * @param {*} bitSize 数组长度
+     */
+    constructor(bitSize) {
+        this.#bitSize = bitSize;
+        this.#bitArray = new Uint8Array(bitSize);
     };
+    /**
+     * 进行bit数据查找
+     * @param {*} index 索引值
+     * @param {*} value
+     */
     set(index, value) {
+        // 校验下标越界,也可以用this.#bitSize[index]!== undefined;
         if (index > -1 && index < this.#bitSize) {
             this.#bitArray[index] = value;
         };
     };
+    /**
+     * 判断当前bit位是否被占用
+     * @param {*} index
+     * @returns
+     */
     get(index) {
         return this.#bitArray[index] === 1; // 被占用
     };
@@ -34,6 +49,11 @@ class BitSet {
 class SimpleHash {
     #cap;
     #seed;
+    /**
+     * 一个简单的哈希函数
+     * @param {*} cap
+     * @param {*} seed
+     */
     constructor(cap, seed) {
         //bitset容器
         this.#cap = cap;
@@ -41,9 +61,9 @@ class SimpleHash {
         this.#seed = seed;
     };
     /**
-     * hash函数，采用简单的加权和hash
+     * hash函数，采用简单的加权和hash然后存入bit数组
      * @param {*} value
-     * @returns
+     * @returns 一个索引值
      */
     hash(value) {
         let result = 0;
@@ -53,7 +73,6 @@ class SimpleHash {
         };
         return (this.#cap - 1) & result;
     };
-
 }
 class BloomFilter {
     #bitSet;
@@ -61,14 +80,15 @@ class BloomFilter {
     static DEFAULT_SIZE = 1 << 24; //按位左移操作符后30位置补全为了其实就是生产一个大数
     static SEED_LIST = [3, 5, 7, 11, 13, 31, 37, 61];
     constructor() {
-        /* 不同哈希函数的种子，一般应取质数 */
+        // 不同哈希函数的种子，一般应取质数
         this.#bitSet = new BitSet(BloomFilter.DEFAULT_SIZE);
+        // 生成8个哈希函数,同一个数据执行8次哈希并将结果存储在bit数组（8个数据）
         BloomFilter.SEED_LIST.forEach(seed => {
             this.#hashFuns.add(new SimpleHash(BloomFilter.DEFAULT_SIZE, seed));
         });
     };
     /**
-     * 将字符串标记到bits中
+     * 将字符串标记到bit数组中（进行8次哈希函数，降低误判率）
      * @param {*} value
      */
     add(value) {
@@ -77,12 +97,13 @@ class BloomFilter {
         });
     };
     /**
-     * 判断字符串是否已经被bits标记
+     * 判断字符串是否已经被bit数组标记
      * @param {*} key
      */
     contains(key) {
         if (key) {
             let result = true;
+            // 将8个哈希结果进行执行判断
             this.#hashFuns.forEach(f => {
                 result = result && this.#bitSet.get(f.hash(key));
             });
