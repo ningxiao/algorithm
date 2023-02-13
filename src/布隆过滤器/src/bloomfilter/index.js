@@ -86,7 +86,7 @@ class BloomFilter {
     #bitSet;
     #hashFuns = new Set();
     static DEFAULT_SIZE = 1 << 24; //按位左移操作符后30位置补全为了其实就是生产一个大数
-    static SEED_LIST = [1, 3, 5, 7, 8, 11, 13, 15];        // 不同哈希函数的种子，一般应取质数
+    static SEED_LIST = [1, 3, 5, 7, 9, 11, 13, 15];        // 不同哈希函数的种子，一般应取质数
     constructor() {
         this.#bitSet = new BitSet(BloomFilter.DEFAULT_SIZE);
         // 生成8个哈希函数,同一个数据执行8次哈希并将结果存储在bit数组（8个数据）
