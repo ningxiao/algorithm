@@ -88,8 +88,16 @@
             let result = 0;
             let size = value.length;
             for (let i = 0; i < size; i++) {
-                result = this.#seed * result + value.codePointAt(i);
+                // 取整 避免js精度问题出现
+                result = parseInt(this.#seed * result + value.codePointAt(i));
             };
+            /**
+            * 避免产生越界存储 this.#cap
+            * console.log(parseInt(23).toString(2),parseInt(12).toString(2),23&12,parseInt(4).toString(2));
+            * 10111
+            *  1100
+            *   100 -> 4
+            */
             return (this.#cap - 1) & result;
         };
     }
@@ -97,9 +105,8 @@
         #bitSet;
         #hashFuns = new Set();
         static DEFAULT_SIZE = 1 << 24; //按位左移操作符后30位置补全为了其实就是生产一个大数
-        static SEED_LIST = [3, 5, 7, 11, 13, 31, 37, 61];
+        static SEED_LIST = [1, 3, 5, 7, 8, 11, 13, 15];        // 不同哈希函数的种子，一般应取质数
         constructor() {
-            // 不同哈希函数的种子，一般应取质数
             this.#bitSet = new BitSet(BloomFilter.DEFAULT_SIZE);
             // 生成8个哈希函数,同一个数据执行8次哈希并将结果存储在bit数组（8个数据）
             BloomFilter.SEED_LIST.forEach(seed => {
@@ -122,7 +129,7 @@
         contains(key) {
             if (key) {
                 let result = true;
-                // 将8个哈希结果进行执行判断
+                // 将8个哈希函数结果进行执行判断
                 this.#hashFuns.forEach(f => {
                     result = result && this.#bitSet.get(f.hash(key));
                 });
