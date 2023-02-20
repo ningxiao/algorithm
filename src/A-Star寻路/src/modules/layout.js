@@ -48,11 +48,14 @@ class DrawMap extends EventTarget {
         }
         this.#drawObstacle();
     }
+    #drawFillRect(x, y) {
+        this.#ctx.fillRect(x * this.#wSize + 1, y * this.#hSize + 1, this.#wSize - 1, this.#hSize - 1);
+    }
     #drawStartEnd(x, y) {
         const row = parseInt(x / this.#wSize);
         const column = parseInt(y / this.#hSize);
         this.#ctx.fillStyle = '#000000';
-        this.#ctx.fillRect(row * this.#wSize + 1, column * this.#hSize + 1, this.#wSize - 1, this.#hSize - 1);
+        this.#drawFillRect(row, column);
         return {
             x: row,
             y: column
@@ -63,7 +66,7 @@ class DrawMap extends EventTarget {
             for (let y = 0; y < this.#column; y++) {
                 if (this.#maps[x][y] === 1) {
                     this.#ctx.fillStyle = '#FFF000';
-                    this.#ctx.fillRect(x * this.#wSize + 1, y * this.#hSize + 1, this.#wSize - 1, this.#hSize - 1);
+                    this.#drawFillRect(x, y);
                 }
             }
         }
@@ -124,7 +127,7 @@ class DrawMap extends EventTarget {
             if (index === 0 || index === size) {
                 this.#ctx.fillStyle = '#000000';
             }
-            this.#ctx.fillRect(x * this.#wSize + 1, y * this.#hSize + 1, this.#wSize - 1, this.#hSize - 1);
+            this.#drawFillRect(x, y);
             if (index !== size) {
                 index++;
                 window.requestAnimationFrame(drawRect);
@@ -134,7 +137,7 @@ class DrawMap extends EventTarget {
             nodes.forEach(node => {
                 const { x, y } = node;
                 this.#ctx.fillStyle = '#FF0000';
-                this.#ctx.fillRect(x * this.#wSize + 1, y * this.#hSize + 1, this.#wSize - 1, this.#hSize - 1);
+                this.#drawFillRect(x, y);
             });
             window.requestIdleCallback(drawRect);
         });

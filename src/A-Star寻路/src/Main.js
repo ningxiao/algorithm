@@ -63,4 +63,6 @@ aStarDrawMap.addEventListener(DrawMap.MY_EVENT_CALCULATE_POINTS, (ev) => {
  * https://cloud.tencent.com/developer/article/1748191?from=15425&areaSource=102001.1&traceId=osT5Vste2Z3baY7ZG2Uhm
  * https://zhuanlan.zhihu.com/p/146611382
  * https://www.jianshu.com/p/8ac893abf2ca
+ * https://cloud.tencent.com/developer/article/1745049?from=article.detail.1748191&areaSource=106000.16&traceId=msZV1UIZwG-KRQf-jm1lh
+ * https://m.fx361.com/news/2022/1206/13838336.html
  */
