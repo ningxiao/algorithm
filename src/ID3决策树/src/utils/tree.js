@@ -26,7 +26,7 @@ const calcEntropy = (data) => {
     };
 };
 /**
- * 计算条件熵
+ * 计算特征条件熵
  * @param {*} columnKey
  * @param {*} column
  * @param {*} row
@@ -37,6 +37,7 @@ const calcSelectEntropy = (data, index) => {
     const group = new Map();
     const typeMap = new Map();
     const dataSize = data.length;
+    const columnType = config.columns[index];
     data.forEach(vo => {
         const type = vo[index];
         if (!typeMap.has(type)) {
@@ -44,11 +45,14 @@ const calcSelectEntropy = (data, index) => {
         }
         typeMap.get(type).push(vo);
     });
+    console.log('%s，属性', columnType, Array.from(typeMap.keys()));
     typeMap.forEach((value, key) => {
         const { groupby, typeSize, entropy } = calcEntropy(value);
+        console.log('%s，信息熵', key, entropy);
         group.set(key, groupby);
         entropys += (typeSize / dataSize) * entropy;
     });
+    console.log('%s，条件熵', columnType, entropys);
     return {
         group,
         entropys,
@@ -60,6 +64,7 @@ const calcDecisionTree = (columns, rows, tree) => {
     let maxGain = -1;
     let maxIndex = 0;
     const size = columns.length - 1;
+    console.log(`--------------列分类`, columns.filter(vo => vo !== null),'--------------');
     //获取信息增益率最大属性（列里面的全量属性）
     for (let index = 0; index < size; index++) {
         if (columns[index]) {
@@ -67,6 +72,7 @@ const calcDecisionTree = (columns, rows, tree) => {
             const { entropys, group } = calcSelectEntropy(rows, index);
             // 计算信息增益
             const gain = config.allEntropy - entropys;
+            console.log('%s，信息增益', columns[index], gain);
             if (gain > maxGain) {
                 maxGain = gain;
                 maxGroup = group;
@@ -78,7 +84,7 @@ const calcDecisionTree = (columns, rows, tree) => {
     if (maxGroup) {
         tree.id = maxKey;
         columns[maxIndex] = null;//使用过属性进行清理
-        console.log(`${maxKey}->信息增益`, maxGain);
+        console.log(`--------------最大信息增益`, maxKey, maxGain, '--------------');
         if (maxGroup) {
             tree.children = [];
             maxGroup.forEach((vo, key) => {
@@ -90,7 +96,6 @@ const calcDecisionTree = (columns, rows, tree) => {
                 } else {
                     const nextChild = {};
                     child.children = [nextChild];
-                    console.log(`${maxKey}->启动条件熵`, key);
                     calcDecisionTree(columns, config.rows.filter(vo => vo[maxIndex] === key), nextChild);
                 }
                 tree.children.push(child);
@@ -103,6 +108,7 @@ const createTree = (columns, rows) => {
     const tree = {};
     // 计算数据全量集合信息熵
     config.allEntropy = calcEntropy(rows).entropy;
+    console.log('全量集合信息熵', config.allEntropy);
     config.rows = rows;
     config.columns = columns;
     return calcDecisionTree(columns, rows, {});
