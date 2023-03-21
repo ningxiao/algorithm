@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "A*寻路算法",
     "scripts": {
-        "start": "http-server -c-1 -o index.html --proxy http://localhost:8080?",
+        "start": "http-server -c-1 -o index.html?calculation=euclidean --proxy http://localhost:8080?",
         "test": "mocha"
     },
     "devDependencies": {

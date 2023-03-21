@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./assets/lit.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ID3决策树</title>
+    <link href="./src/styles/mermaid.min.css" rel="stylesheet" />
+    <script src="https://gw.alipayobjects.com/os/lib/antv/g6/4.8.7/dist/g6.min.js"></script>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            font-size: 12px;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 520px;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        .buttons{
+            display: flex;
+            align-items: center;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            flex-direction: column;
+            transform: translate(-50%,-50%);
+        }
+        .buttons>button{
+            display: flex;
+            margin: 8px 0;
+            cursor: pointer;
+        }
+        #grid {
+            width: 40%;
+        }
+
+        #container {
+            width: 40%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div id="grid"></div>
+        <div class="buttons">
+            <button id="create_tree" >训练生成决策树</button>
+            <button  id="verify_data" disabled >决策树验证数据</button>
+        </div>
+        <div id="container"></div>
+    </div>
+    <script type="module" src="./src/Main.js"></script>
+</body>
+
+</html>

@@ -54,7 +54,7 @@ const maps = [
 ];
 const aStarDrawMap = new DrawMap(document.body, maps);
 aStarDrawMap.addEventListener(DrawMap.MY_EVENT_CALCULATE_POINTS, (ev) => {
-    const {start, goal} = ev.detail;
+    const { start, goal } = ev.detail;
     console.time('寻路耗时');
     aStarDrawMap.drawPaths(calculate.aStarSearch(maps, start, goal));
     console.timeEnd('寻路耗时');
@@ -65,4 +65,5 @@ aStarDrawMap.addEventListener(DrawMap.MY_EVENT_CALCULATE_POINTS, (ev) => {
  * https://www.jianshu.com/p/8ac893abf2ca
  * https://cloud.tencent.com/developer/article/1745049?from=article.detail.1748191&areaSource=106000.16&traceId=msZV1UIZwG-KRQf-jm1lh
  * https://m.fx361.com/news/2022/1206/13838336.html
+ * https://mp.weixin.qq.com/s/CjSXdns1URlJ8Yztk0vbtw
  */

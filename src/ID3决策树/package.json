@@ -1,0 +1,12 @@
+{
+    "name": "id3",
+    "version": "0.0.1",
+    "description": "ID3决策树",
+    "scripts": {
+        "start": "http-server -c-1 -o index.html --proxy http://localhost:8080?",
+        "test": "mocha"
+    },
+    "devDependencies": {
+        "mocha": "^10.2.0"
+    }
+}
