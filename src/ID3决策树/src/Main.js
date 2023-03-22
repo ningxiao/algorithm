@@ -28,7 +28,7 @@ const createG6 = () => {
         modes: {
             default: [{
                 type: 'collapse-expand',
-                onChange: function onChange(item, collapsed) {
+                onChange: (item, collapsed) => {
                     const data = item.get('model');
                     data.collapsed = collapsed;
                     return true;
@@ -54,7 +54,7 @@ const createG6 = () => {
             rankSep: 80,
         },
     });
-    graph.node(function (node) {
+    graph.node((node) => {
         let rotate = 0;
         let position = 'right';
         let label = node.id;
@@ -86,7 +86,7 @@ const createG6 = () => {
 };
 createGrid();
 document.querySelector('#create_tree').addEventListener('click', (ev) => {
-    const el =  document.querySelector('#verify_data');
+    const el = document.querySelector('#verify_data');
     ev.target.disabled = true;
     if (!isTree) {
         createG6();
