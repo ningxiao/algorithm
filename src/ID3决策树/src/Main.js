@@ -97,5 +97,3 @@ document.querySelector('#create_tree').addEventListener('click', (ev) => {
         isTree = true;
     }
 });
-//https://km.sankuai.com/page/1277628698?from=citadel_search_card
-//https://km.sankuai.com/page/473019096?from=citadel_search_card
