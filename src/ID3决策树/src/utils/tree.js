@@ -1,4 +1,6 @@
 const config = {
+    rows: [],
+    columns: [],
     allEntropy: 1,
 }
 /**
@@ -27,9 +29,8 @@ const calcEntropy = (data) => {
 };
 /**
  * 计算特征条件熵
- * @param {*} columnKey
- * @param {*} column
- * @param {*} row
+ * @param {*} data
+ * @param {*} index
  * @returns
  */
 const calcSelectEntropy = (data, index) => {
@@ -58,13 +59,20 @@ const calcSelectEntropy = (data, index) => {
         entropys,
     };
 };
+/**
+ * 生成ID3算法决策树
+ * @param {*} columns
+ * @param {*} rows
+ * @param {*} tree
+ * @returns
+ */
 const calcDecisionTree = (columns, rows, tree) => {
     let maxKey;
     let maxGroup;
     let maxGain = -1;
     let maxIndex = 0;
     const size = columns.length - 1;
-    console.log(`--------------列分类`, columns.filter(vo => vo !== null),'--------------');
+    console.log(`--------------列分类`, columns.filter(vo => vo !== null), '--------------');
     //获取信息增益率最大属性（列里面的全量属性）
     for (let index = 0; index < size; index++) {
         if (columns[index]) {
@@ -104,13 +112,21 @@ const calcDecisionTree = (columns, rows, tree) => {
     }
     return tree;
 };
+/**
+ *
+ * @param {*} columns
+ * @param {*} rows
+ * @returns
+ */
 const createTree = (columns, rows) => {
     const tree = {};
     // 计算数据全量集合信息熵
-    config.allEntropy = calcEntropy(rows).entropy;
+    Object.assign(config, {
+        rows,
+        columns,
+        allEntropy: calcEntropy(rows).entropy
+    });
     console.log('全量集合信息熵', config.allEntropy);
-    config.rows = rows;
-    config.columns = columns;
     return calcDecisionTree(columns, rows, {});
 };
 export default createTree;
