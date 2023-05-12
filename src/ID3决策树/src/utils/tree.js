@@ -119,7 +119,6 @@ const calcDecisionTree = (columns, rows, tree) => {
  * @returns
  */
 const createTree = (columns, rows) => {
-    const tree = {};
     // 计算数据全量集合信息熵
     Object.assign(config, {
         rows,
