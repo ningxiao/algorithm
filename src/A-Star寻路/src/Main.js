@@ -53,6 +53,7 @@ const maps = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 const aStarDrawMap = new DrawMap(document.body, maps);
+console.log('页面dom数',document.body.querySelectorAll('*').length);
 aStarDrawMap.addEventListener(DrawMap.MY_EVENT_CALCULATE_POINTS, (ev) => {
     const { start, goal } = ev.detail;
     console.time('寻路耗时');

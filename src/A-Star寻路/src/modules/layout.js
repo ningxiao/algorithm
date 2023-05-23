@@ -7,7 +7,6 @@ class DrawMap extends EventTarget {
     #hSize;
     #wSize;
     #canvas;
-    #gameBitmap;
     #workerOffscreencanvas;
     #nodes = [];
     #dpr = window.devicePixelRatio;
@@ -96,22 +95,21 @@ class DrawMap extends EventTarget {
             OFFSET_WIDTH,
             OFFSET_HEIGHT
         } = DrawMap;
+        console.time('线程创建耗时->');
         this.#workerOffscreencanvas = new Worker("./src/workers/offscreencanvas.js");
         this.#workerOffscreencanvas.addEventListener('message', (ev) => {
-            const { type, bitmap } = ev.data;
+            const { type, blob } = ev.data;
             if (type === 'commit') {
-                this.#gameBitmap = bitmap;
-                this.#ctx.drawImage(this.#gameBitmap, 0, 0, OFFSET_WIDTH, OFFSET_HEIGHT);
-                this.#canvas.toBlob(blob => { // 使用二进制地址 清理URL.revokeObjectURL(url);
-                    this.#canvas.style.backgroundImage = `url(${URL.createObjectURL(blob)})`;
-                    window.requestAnimationFrame(() => {
-                        this.#ctx.clearRect(0, 0, OFFSET_WIDTH, OFFSET_HEIGHT);
-                    });
-                });
+                console.timeEnd('离屏绘制耗时->');
+                console.time('Blob转url耗时->');
+                this.#canvas.style.backgroundImage = `url(${URL.createObjectURL(blob)})`;
+                console.timeEnd('Blob转url耗时->');
             }
         });
+        console.timeEnd('线程创建耗时->');
     }
     #gameLayout() {
+        console.time('离屏绘制耗时->');
         this.#workerOffscreencanvas.postMessage(
             {
                 maps: this.#maps,

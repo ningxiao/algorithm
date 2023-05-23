@@ -12,8 +12,6 @@ const numpySum = (node, goal) => {
     return Math.max(dx, dy);
 }
 /**
- * 欧氏距离
- * 欧式距离是我们在直角坐标系中最常用的距离量算方法，例如小时候学的“两点之间的最短距离是连接两点的直线距离。”这就是典型的欧式距离量算方法。
  * 通常这这个距离的获取是基于我们熟悉的“勾股定理”，解算三角形斜边得到的。
  * @param {*} node
  * @param {*} goal
@@ -24,7 +22,7 @@ const euclidean = (node, goal, weights = 1) => {
     return weights * Math.round(10 * Math.sqrt(Math.pow(node.x - goal.x, 2) + Math.pow(node.y - goal.y, 2)));
 };
 /**
- * 曼哈顿距离是与欧式距离不同的一种丈量方法，两点之间的距离不再是直线距离，而是投影到坐标轴的长度之和。
+ * 曼哈顿距离是与勾股定理不同的一种丈量方法，两点之间的距离不再是直线距离，而是投影到坐标轴的长度之和。
  * @param {*} node
  * @param {*} goal
  * @returns
@@ -34,7 +32,6 @@ const manhattan = (node, goal) => {
     const dy = Math.abs(node.y - goal.y);
     return dx + dy;
 };
-
 export const makeId = (x, y) => `${x}-${y}`;
 export const getMinNode = (openList) => {//获取最佳节点
     let node;

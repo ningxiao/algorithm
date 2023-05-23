@@ -1,9 +1,10 @@
+const canvas = new OffscreenCanvas(0, 0);
+const ctx = canvas.getContext('2d');
 self.addEventListener('message', (ev) => {
-    const { dpr,maps, width, height, row, column } = ev.data;
+    console.time('线程绘制耗时->');
+    const { dpr, maps, width, height, row, column, isBlob = false } = ev.data;
     const hSize = height / row;
     const wSize = width / column;
-    const canvas = new OffscreenCanvas(width, height);
-    const ctx = canvas.getContext('2d');
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.scale(dpr, dpr);
@@ -32,15 +33,19 @@ self.addEventListener('message', (ev) => {
     for (let x = 0; x < row; x++) {
         for (let y = 0; y < column; y++) {
             if (maps[x][y] === 1) {
-               ctx.fillRect(x * wSize + 1, y * hSize + 1, wSize - 1, hSize - 1);
+                ctx.fillRect(x * wSize + 1, y * hSize + 1, wSize - 1, hSize - 1);
             }
         }
     }
     ctx.stroke();
     ctx.restore(); //绘制结束以后，恢复画笔状态
-    const imageBitmap = canvas.transferToImageBitmap();
-    postMessage({
-        type: 'commit',
-        bitmap:imageBitmap
-    }, [imageBitmap]);
+    console.timeEnd('线程绘制耗时->');
+    console.time('线程转blob耗时->');
+    canvas.convertToBlob().then((blob) => {
+        console.timeEnd('线程转blob耗时->');
+        postMessage({
+            type: 'commit',
+            blob
+        });
+    });
 }, false);
