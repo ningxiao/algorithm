@@ -29,6 +29,7 @@
 ### 4 工程命令
 ``` shell
 cd algorithm/src/A-Star寻路
+npm run start
 ```
 ![example](./assets/WX20230523-153647@2x.png)
 
