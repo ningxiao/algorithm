@@ -8,10 +8,14 @@ import {
 import createTree from './utils/tree.js';
 let isTree = false;
 const createGrid = () => {
+    const data = JSON.parse(JSON.stringify(dataSource));
     const grid = new Grid({
-        columns,
-        data: dataSource,
-        height: 516
+        columns: ['序号', ...columns],
+        data: data.map((vo, index) => {
+            vo.unshift(index+1);
+            return vo;
+        }),
+        height: 600
     });
     grid.render(document.getElementById('grid'));
 };

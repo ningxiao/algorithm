@@ -6,7 +6,7 @@ const OFF_SET_POINTS = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1
  * @param {*} goal
  * @returns
  */
-const numpySum = (node, goal) => {
+const bumpySum = (node, goal) => {
     const dx = Math.abs(node.x - goal.x);
     const dy = Math.abs(node.y - goal.y);
     return Math.max(dx, dy);
@@ -75,7 +75,7 @@ export const costCalculation = (node, goal, type = false) => {
         case 'euclidean':
             return euclidean(node, goal);
         default:
-            return numpySum(node, goal);
+            return bumpySum(node, goal);
     }
 }
 

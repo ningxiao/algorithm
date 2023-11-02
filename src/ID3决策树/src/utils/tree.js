@@ -80,7 +80,7 @@ const calcDecisionTree = (columns, rows, tree) => {
             const { entropys, group } = calcSelectEntropy(rows, index);
             // 计算信息增益
             const gain = config.allEntropy - entropys;
-            console.log('%s，信息增益', columns[index], gain);
+            console.info('%s，信息增益', columns[index], gain);
             if (gain > maxGain) {
                 maxGain = gain;
                 maxGroup = group;
@@ -100,7 +100,7 @@ const calcDecisionTree = (columns, rows, tree) => {
                 console.log(key)
                 if (vo.size === 1) {//结论已经单一化
                     child.isOpen = vo.has('Y');
-                    console.log(`${maxKey}->结论单一化`, key);
+                    console.info(`${maxKey}->结论单一化`, key);
                 } else {
                     const nextChild = {};
                     child.children = [nextChild];
