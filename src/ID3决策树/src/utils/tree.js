@@ -92,7 +92,7 @@ const calcDecisionTree = (columns, rows, tree) => {
     if (maxGroup) {
         tree.id = maxKey;
         columns[maxIndex] = null;//使用过属性进行清理
-        console.log(`--------------最大信息增益`, maxKey, maxGain, '--------------');
+        console.log(`--------------各属性信息增益`, maxKey, maxGain, '--------------');
         if (maxGroup) {
             tree.children = [];
             maxGroup.forEach((vo, key) => {
